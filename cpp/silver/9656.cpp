@@ -11,6 +11,6 @@ int main() {
 
 	int num;
 	cin >> num;
-	if (num % 3 == 0 || num % 3 == 2) cout << "CY";
+	if (num % 2 == 1) cout << "CY";
 	else cout << "SK";
 }
