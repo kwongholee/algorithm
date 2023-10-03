@@ -2,8 +2,13 @@
 #include <vector>
 #include <algorithm>
 #include <string>
+#include <cmath>
+#include <stack>
+#include <queue>
 
 using namespace std;
+
+queue<int> v;
 
 int main() {
 	cin.tie(NULL);
@@ -11,15 +16,11 @@ int main() {
 
 	int num;
 	cin >> num;
-	vector<int> v;
-	for (int i = 1; i <= num; i++) v.push_back(i);
-	while (true) {
-		if (v.size() == 1) break;
-		else {	
-			v.erase(v.begin() + 0);
-			v.push_back(v[0]);
-			v.erase(v.begin() + 0);
-		}
+	for (int i = 1; i <= num; i++) v.push(i);
+	while (v.size() != 1) {
+		v.pop();
+		v.push(v.front());
+		v.pop();
 	}
-	cout << v[0];
+	cout << v.front();
 }
