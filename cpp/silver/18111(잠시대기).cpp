@@ -10,8 +10,36 @@
 
 using namespace std;
 
-int N, M, B, most = -1, most_value = -1;
+int N, M;
+long long B;
 int height[257];
+vector<int> v;
+
+pair<int,int> minecraft(int most, int less) {
+	int j = most, value = 999999, value_idx;
+	long long holding_block = 0, necessary_block = 0;
+	while (j >= less) {
+		int result = 0;
+		for (int i = 0; i < 257; i++) {
+			if (height[i] != 0 and i < j) {
+				result += (j - i) * height[i];
+				necessary_block += (j - i) * height[i];
+			}
+			else if (height[i] != 0 and i > j) {
+				result += (i - j) * height[i] * 2;
+				holding_block += (i - j) * height[i];
+			}
+		}
+		if (holding_block + B >= necessary_block) {
+			if (value > result) {
+				value = result;
+				value_idx = j;
+			}
+		}
+		j--;
+	}
+	return { value, value_idx };
+}
 
 int main() {
 	cin.tie(NULL);
@@ -24,27 +52,12 @@ int main() {
 		cin >> a;
 		height[a]++;
 	}
-	bool check = false;
-	for (int i = 0; i < 257; i++) {
-		if (height[i] > most) {
-			most = height[i];
-			most_value = i;
-			check = false;
+	int most = 0, less = 256;
+	for (int i = 256; i >= 0; i--) {
+		if (height[i] > 0) {
+			if (i < less)less = i;
+			else if (i > most) most = i;
 		}
-		else if (height[i] == most) check = true;
 	}
-	if (!check) {
-		int result = 0, necessary_block = 0, holding_block = B;
-		for (int i = 0; i < 257; i++) {
-			if (height[i] != 0 and i < most_value) {
-				result += (most - height[i]) * (most_value - i);
-				necessary_block += (most - height[i]);
-			}
-			else if (height[i] == 0 and i > most_value) {
-				result += (most - height[i]) * (i - most_value) * 2;
-				holding_block += (most - height[i]) * (i - most_value);
-			}
-		}
-		if (holding_block < necessary_block) most_value--;
-	}
+	cout << minecraft(most, less).first << " " << minecraft(most, less).second;
 }
