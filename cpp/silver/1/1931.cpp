@@ -12,7 +12,7 @@
 
 using namespace std;
 
-int n, cnt = 1, idx = 0;
+int n, cnt = 1;
 pair<int, int> table[100000];
 
 int main() {
@@ -22,26 +22,14 @@ int main() {
 
 	cin >> n;
 	for (int i = 0; i < n; i++) {
-		cin >> table[i].first >> table[i].second;
+		cin >> table[i].second >> table[i].first;
 	}
 	sort(table, table + n);
-	int start = table[0].first, end = table[0].second, i = 1;
-	while (true) {
-		if (table[i].first > start and table[i].second <= end) {
-			end = table[i].second;
-			idx = i;
-			break;
-		}
-		else if (table[i].first > end) {
-			idx = 0;
-			break;
-		}
-		else i++;
-	}
-	for (int j = idx + 1; j < n; j++) {
-		if (end < table[j].first) {
+	int time = table[0].first;
+	for (int j = 1; j < n; j++) {
+		if (table[j].second >= time) {
 			cnt++;
-			end = table[j].second;
+			time = table[j].first;
 		}
 	}
 	cout << cnt;
