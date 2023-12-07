@@ -3,7 +3,6 @@
 using namespace std;
 
 int N, S, idx = 0, cnt = 0;
-vector<int> v(N,0);
 
 int main() {
 	cin.tie(NULL);
@@ -11,6 +10,7 @@ int main() {
 	ios_base::sync_with_stdio(false);
 
 	cin >> N;
+	vector<int> v(N,0);
   for(int i = 0; i < N; i++) cin >> v[i];
   cin >> S;
   for (int i = 0; i < N; i++) {
